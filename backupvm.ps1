@@ -35,7 +35,7 @@ foreach ($vm in $vms)
 #{
 #    stop-vm smtp-relay
 
-#    Add-VmBackup -vm smtp-relay -backupLocation C:\tmp\VMs -ftpBackupServer "ftp://storage-01.gscms.com" -ftpUsername hypervbackup -ftpPassword g1c05m05hyp3rv -ftpBackupPath '/machines/'
+#    Add-VmBackup -vm smtp-relay -backupLocation C:\tmp\VMs -ftpBackupServer "ftp://path.to.your.ftp.server" -ftpUsername hypervbackup -ftpPassword your password -ftpBackupPath '/machines/'
 #}
 #catch
 #{
@@ -70,10 +70,9 @@ foreach ($vm in $vms)
     {
         if( $continueLoop )
         {
+            Add-VmBackup -vm $vm -backupLocation C:\tmp\VMs -ftpBackupServer "ftp://path.to.your.ftp.server" -ftpUsername hypervbackup -ftpPassword your password -ftpBackupPath '/machines/'
             start-vm $vm
             $continueLoop = !$LASTEXITCODE
-#now we give it 5 minutes to start the VM, which should be enough to start all the service in it.
-            start-sleep 300
         }
     }
     catch
@@ -82,23 +81,5 @@ foreach ($vm in $vms)
     }
 }
 
-##Backup all VMS
-
-$continueLoop = $true
-
-foreach ($vm in $vms)
-{
-    try
-    {
-        if( $continueLoop )
-        {
-            Add-VmBackup -vm $vm -backupLocation C:\tmp\VMs -ftpBackupServer "ftp://storage-01.gscms.com" -ftpUsername hypervbackup -ftpPassword g1c05m05hyp3rv -ftpBackupPath '/machines/'
-            $continueLoop = !$LASTEXITCODE
-        }  
-    }
-    catch
-    {
-    }
-}
 
 
